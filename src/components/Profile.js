@@ -6,13 +6,17 @@ import { Card, CardGroup, Row } from 'reactstrap'
 import ProductCard from './ProductCard'
 import Navv from './Navv'
 import Footer from './Footer'
+import { requestForToken, messaging} from "./firebase";
 
 const Profile = () => {
     const [data, setData] = useState(null)
+    const [token, setToken] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const token = await requestForToken();
+                setToken(token)
                 const response = await axios.post(`${URL}/profile`)
                 console.log(response.data)
                 setData(response.data)
@@ -52,7 +56,8 @@ const Profile = () => {
                                 }}
                             >
                                 <h3 style={{ color: 'white' }}>
-                                    Your information:
+                                
+                                    Your information: {token}
                                 </h3>
                                 <p
                                     style={{
